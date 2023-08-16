@@ -17,6 +17,11 @@ jobs:
           if: failure()
           run: docker compose logs
         - run: docker network inspect maeve-csms
-        - name: Smoke test direct to manager
-          run: http -v --ignore-stdin --check-status POST http://localhost:9910/api/v0/cs/cs001 securityProfile:=2
+        - run: docker ps
+        - name: Smoke test via envoy
+          run: http -v --ignore-stdin --check-status POST http://localhost:9410/api/v0/cs/cs001 securityProfile:=2
+        - name: Dump docker container logs on failure
+          if: failure()
+          run: docker compose logs
         - run: docker compose logs
+
